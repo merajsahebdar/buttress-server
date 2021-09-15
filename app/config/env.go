@@ -14,21 +14,35 @@
  * limitations under the License.
  */
 
-package main
+package config
 
-import (
-	"fmt"
+// EnvType Represents types for the current running environment.
+type EnvType int
 
-	"buttress.io/app/config"
+const (
+	Prod EnvType = iota
+	Test
+	Dev
 )
 
-func main() {
-	switch config.CurrentEnv {
-	case config.Prod:
-		fmt.Printf("Hi Customer!\n")
-	case config.Dev:
-		fmt.Printf("Hi!\n")
-	case config.Test:
-		fmt.Printf("Hi Mr. Tester!\n")
+// String Returns the string representation of the environment.
+func (e EnvType) String() string {
+	switch e {
+	case Prod:
+		return "production"
+	case Test:
+		return "test"
+	case Dev:
+		return "development"
+	default:
+		return "development"
 	}
 }
+
+// IsDev Checks whether its running in dev environment or not.
+func (e EnvType) IsDev() bool {
+	return e == Dev
+}
+
+// CurrentEnv Keeps the value of current running environment.
+var CurrentEnv EnvType

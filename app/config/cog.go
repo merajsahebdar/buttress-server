@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package main
+package config
 
-import (
-	"fmt"
-
-	"buttress.io/app/config"
-)
-
-func main() {
-	switch config.CurrentEnv {
-	case config.Prod:
-		fmt.Printf("Hi Customer!\n")
-	case config.Dev:
-		fmt.Printf("Hi!\n")
-	case config.Test:
-		fmt.Printf("Hi Mr. Tester!\n")
-	}
+// Cog
+var Cog struct {
+	App struct {
+		Host string `yaml:"host" default:"0.0.0.0"`
+		Port int    `yaml:"port" default:"33007"`
+	} `yaml:"app"`
+	Database struct {
+		URL string `yaml:"url"`
+	} `yaml:"database"`
 }

@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-package main
+package config
 
-import (
-	"fmt"
+import "go.uber.org/zap"
 
-	"buttress.io/app/config"
-)
-
-func main() {
-	switch config.CurrentEnv {
-	case config.Prod:
-		fmt.Printf("Hi Customer!\n")
-	case config.Dev:
-		fmt.Printf("Hi!\n")
-	case config.Test:
-		fmt.Printf("Hi Mr. Tester!\n")
-	}
-}
+// Log
+var Log *zap.Logger
