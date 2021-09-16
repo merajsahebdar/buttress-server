@@ -17,18 +17,19 @@
 package main
 
 import (
-	"fmt"
-
+	servercomp "buttress.io/app/component/server"
 	"buttress.io/app/config"
+	"go.uber.org/fx"
+	"go.uber.org/fx/fxevent"
 )
 
 func main() {
-	switch config.CurrentEnv {
-	case config.Prod:
-		fmt.Printf("Hi Customer!\n")
-	case config.Dev:
-		fmt.Printf("Hi!\n")
-	case config.Test:
-		fmt.Printf("Hi Mr. Tester!\n")
-	}
+	fx.New(
+		fx.WithLogger(func() fxevent.Logger {
+			return &fxevent.ZapLogger{
+				Logger: config.Log.Named("fx"),
+			}
+		}),
+		servercomp.RpcComp,
+	).Run()
 }
