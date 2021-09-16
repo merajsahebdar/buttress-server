@@ -17,19 +17,29 @@
 package main
 
 import (
-	servercomp "buttress.io/app/component/server"
+	"os"
+
+	"buttress.io/app/command"
 	"buttress.io/app/config"
-	"go.uber.org/fx"
-	"go.uber.org/fx/fxevent"
+	"github.com/alecthomas/kong"
+	"go.uber.org/zap"
 )
 
+// CLI
+var CLI struct {
+	Serve command.Serve `cmd:"serve" help:"Serve the app APIs."`
+}
+
 func main() {
-	fx.New(
-		fx.WithLogger(func() fxevent.Logger {
-			return &fxevent.ZapLogger{
-				Logger: config.Log.Named("fx"),
+	if parser, err := kong.New(&CLI); err != nil {
+
+	} else {
+		if ctx, err := parser.Parse(os.Args[1:]); err != nil {
+			config.Log.Fatal("failed to parse cli", zap.Error(err))
+		} else {
+			if err := ctx.Run(); err != nil {
+				config.Log.Fatal("failed to run command", zap.Error(err))
 			}
-		}),
-		servercomp.RpcComp,
-	).Run()
+		}
+	}
 }

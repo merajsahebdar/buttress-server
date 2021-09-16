@@ -46,3 +46,6 @@ func (e EnvType) IsDev() bool {
 
 // CurrentEnv Keeps the value of current running environment.
 var CurrentEnv EnvType
+
+// Verbose
+var Verbose = false

@@ -3,6 +3,7 @@ module buttress.io
 go 1.16
 
 require (
+	github.com/alecthomas/kong v0.2.17
 	github.com/creasty/defaults v1.5.2
 	github.com/markbates/pkger v0.17.1
 	github.com/pkg/errors v0.9.1
