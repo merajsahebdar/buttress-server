@@ -65,12 +65,18 @@ func registerLifecycle(lc fx.Lifecycle, server *RpcServer) {
 				server.Log.Fatal("failed to serve the tcp listener", zap.Error(err))
 			}
 
+			server.Log.Info("starting the rpc connection...", zap.String("host", host), zap.Int("port", port))
+
 			go func() {
 				if err := server.Serve(lis); err != nil {
-					server.Log.Fatal("failed to start the gRPC server", zap.Error(err))
+					server.Log.Fatal("failed to start the rpc server", zap.Error(err))
 				}
 			}()
 
+			return nil
+		},
+		OnStop: func(context.Context) error {
+			server.GracefulStop()
 			return nil
 		},
 	})
